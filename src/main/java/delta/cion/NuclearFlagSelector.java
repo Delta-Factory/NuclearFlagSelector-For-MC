@@ -7,9 +7,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
-public class Main {
+public class NuclearFlagSelector {
     private static String xms = null;
     private static String xmx = null;
 

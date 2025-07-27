@@ -1,30 +1,38 @@
 plugins {
-    id("java")
-    id("com.github.johnrengelman.shadow") version "7.1.0"
+	id("java")
+	kotlin("jvm") version "2.1.10"
+	id("com.gradleup.shadow") version("8.3.0")
 }
 
 group = "delta.cion"
-version = "0.0.1-DEV"
-var main = "delta.cion.Main"
+version = "0.0.0-DEV"
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("commons-io:commons-io:2.5")
-}
+tasks {
+	build {
+		dependsOn(shadowJar)
+	}
 
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = main
-    }
-}
+	shadowJar {
+		mergeServiceFiles()
+		archiveClassifier.set("")
+	}
 
-tasks.shadowJar {
-    archiveClassifier.set("")
-}
+	withType<JavaCompile> {
+		options.encoding = "UTF-8"
+		options.release = 8
+	}
 
-tasks.test {
-    useJUnitPlatform()
+	withType<Jar> {
+		manifest { attributes["Main-Class"] = "delta.cion.NuclearFlagSelector" }
+	}
 }
